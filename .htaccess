@@ -1,0 +1,5 @@
+# route requests that go to api/ to the api/router.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^api.*$ api/router.php
+</IfModule>
