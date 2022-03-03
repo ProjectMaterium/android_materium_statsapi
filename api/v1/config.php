@@ -18,7 +18,9 @@ function getStatsConfig()
         'DATABASE_NAME' => 'stats',
         'DATABASE_USERNAME' => 'mat_stats',
         'DATABASE_PASSWORD' => '*52A51B856D9E88A37F2BDB3C61A5C89273C1A9A1',
-        'LIMIT_TOP_DEVICES' => 5,
-        'LIMIT_TOP_COUNTRIES' => 5
+        'LIMIT_GETTOPCOUNTRIES' => 5,
+        'LIMIT_GETTOPDEVICES' => 5,
+        'LIMIT_GETDEVICE_TOP_COUNTRY' => 5,
+        'LIMIT_GETDEVICE_TOP_VERSION' => 5
     );
 }
