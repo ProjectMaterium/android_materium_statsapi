@@ -126,16 +126,52 @@ function getDevice($d)
     unset($s, $n, $r);
 
     // top country
-    $s = $db->prepare("SELECT `device_country`, COUNT(`device_country`) AS `co` FROM `device` WHERE `device_name` = ? GROUP BY `device_country` ORDER BY `co` DESC LIMIT 1;");
+    $s = $db->prepare("SELECT `device_country`, COUNT(`device_country`) AS `co` FROM `device` WHERE `device_name` = ? GROUP BY `device_country` ORDER BY `co` DESC LIMIT ?;");
     $x = $db->real_escape_string($d);
-    $s->bind_param('s', $x);
+    if(isset($STATS_CONFIG['LIMIT_GETDEVICE_TOP_COUNTRY'])) {
+      $y = $STATS_CONFIG['LIMIT_GETDEVICE_TOP_COUNTRY'];
+    } else {
+      $y = 10;
+    }
+    $s->bind_param('si', $x, $y);
     unset($x);
     $s->execute();
-    $r = $s->get_result();
-    $o['top_country'] = mysqli_fetch_assoc($r)['device_country'];
+
+    $c = [];
+    $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
+    foreach ($r as $k) {
+      $c[$k['device_country']] = $k['co'];
+    }
+    $o['top_countries'] = $c;
+
+    unset($c, $r, $y, $s, $x);
+    // $r = $s->get_result();
+    // $o['top_country'] = mysqli_fetch_assoc($r)['device_country'];
+
+
+    // top version
+    $s = $db->prepare("SELECT `device_version`, COUNT(`device_version`) AS `vo` FROM `device` WHERE `device_name` = ? GROUP BY `device_version` ORDER BY `vo` DESC LIMIT ?;");
+    $x = $db->real_escape_string($d);
+    if(isset($STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'])) {
+      $y = $STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'];
+    } else {
+      $y = 10;
+    }
+    $s->bind_param('si', $x, $y);
+    unset($x);
+    $s->execute();
+
+    $c = [];
+    $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
+    foreach ($r as $k) {
+      $c[$k['device_version']] = $k['vo'];
+    }
+    $o['top_versions'] = $c;
+
+
 
     echo json_encode($o);
-    unset($o, $n, $s, $r);
+    unset($o, $n, $s, $r, $c);
 }
 
 // get top X (see config: LIMIT_TOP_DEVICES) devices with the most installations
@@ -149,7 +185,7 @@ function getTopDevices()
     connectDb();
 
     $s = $db->prepare("SELECT distinct `device_name`, COUNT(`device_name`) AS `do` FROM `device`  GROUP BY `device_name` ORDER BY `do` DESC LIMIT ?;");
-    $s->bind_param('s', $STATS_CONFIG['LIMIT_TOP_DEVICES']);
+    $s->bind_param('s', $STATS_CONFIG['LIMIT_GETTOPDEVICES']);
     unset($x);
     $s->execute();
     $r = $s->get_result();
@@ -174,7 +210,7 @@ function getTopCountries()
     connectDb();
 
     $s = $db->prepare("SELECT distinct `device_country`, COUNT(`device_country`) AS `do` FROM `device`  GROUP BY `device_country` ORDER BY `do` DESC LIMIT ?;");
-    $s->bind_param('s', $STATS_CONFIG['LIMIT_TOP_COUNTRIES']);
+    $s->bind_param('s', $STATS_CONFIG['LIMIT_GETTOPCOUNTRIES']);
     unset($x);
     $s->execute();
     $r = $s->get_result();
