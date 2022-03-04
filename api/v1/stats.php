@@ -96,8 +96,7 @@ function getAllDevices()
 function getDevice($d)
 {
     if (trim($d) == "") {
-        echo "No device given!";
-        printBadRequest();
+        printBadRequest(400, 'No device given!');
     }
 
     global $db;
@@ -222,4 +221,80 @@ function getTopCountries()
 
     echo json_encode($o);
     unset($s, $r, $o);
+}
+
+function getCountry($d)
+{
+  global $STATS_CONFIG;
+  global $db;
+  connectDb();
+
+  $d = mb_strtoupper($d);
+
+  if (trim($d) == "") {
+      printBadRequest(400, 'No device given!');
+  }
+
+  // get numbers of devices
+  $s = $db->prepare("SELECT `device_country` FROM `device` WHERE `device_country` = ?;");
+  $x = $db->real_escape_string($d);
+  $s->bind_param('s', $x);
+  unset($x);
+  $s->execute();
+  $r = $s->get_result();
+  $n = 0;
+  while ($rs = mysqli_fetch_assoc($r)) {
+      $n++;
+  }
+  if ($n == 0) {
+    printBadRequest(404, 'Country not found!');
+  }
+
+  $o['country'] = $d;
+  $o['installations'] = $n;
+  unset($s, $r, $n);
+
+  // top devices
+  $s = $db->prepare("SELECT `device_name`, COUNT(`device_name`) AS `no` FROM `device` WHERE `device_country` = ? GROUP BY `device_name` ORDER BY `no` DESC LIMIT ?;");
+  $x = $db->real_escape_string($d);
+  if(isset($STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_DEVICES'])) {
+    $y = $STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_DEVICES'];
+  } else {
+    $y = 10;
+  }
+  $s->bind_param('si', $x, $y);
+  unset($x);
+  $s->execute();
+
+  $c = [];
+  $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
+  foreach ($r as $k) {
+    $c[$k['device_name']] = $k['no'];
+  }
+
+  $o['top_devices'] = $c;
+  unset($c, $r, $y, $s, $x);
+
+  // top version
+  $s = $db->prepare("SELECT `device_version`, LEFT(`device_version`, 4) AS `version`, COUNT(LEFT(`device_version`, 4)) AS `vo` FROM `device` WHERE `device_country` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
+  $x = $db->real_escape_string($d);
+  if(isset($STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_VERSIONS'])) {
+    $y = $STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_VERSIONS'];
+  } else {
+    $y = 10;
+  }
+  $s->bind_param('si', $x, $y);
+  unset($x);
+  $s->execute();
+
+  $c = [];
+  $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
+  foreach ($r as $k) {
+    $c[$k['version']] = $k['vo'];
+  }
+  $o['top_versions'] = $c;
+
+  echo json_encode($o);
+
+  unset($c, $r, $y, $s, $x);
 }

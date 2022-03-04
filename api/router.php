@@ -65,6 +65,11 @@ switch ($u[2]) {
                 getTopCountries();
                 break;
 
+            case 'getcountry':
+                // get details of a country
+                getCountry($u[4]);
+                break;
+
             case '':
                 printBadRequest(400, "Missing command!");
                 break;

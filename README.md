@@ -56,10 +56,10 @@ https://stats.materium.eu.org/api/v1/GeTdEVICe/CuCUMbeR
 <br/>
 
 - <a id="COMMAND_V1_GETDEVICE"></a>getDevice
-    - see config: [LIMIT_GETDEVICE_TOP_COUNTRIES](#CONFIG_LIMIT_GETDEVICE_TOP_COUNTRIES) [LIMIT_GETDEVICE_TOP_VERSIONS](#CONFIG_LIMIT_GETDEVICE_TOP_VERSIONS)
-    - arguments: api/v2/getDevice/DEVICE_CODENAME
+    - see config: [LIMIT_GETDEVICE_TOP_COUNTRIES](#CONFIG_LIMIT_GETDEVICE_TOP_COUNTRIES), [LIMIT_GETDEVICE_TOP_VERSIONS](#CONFIG_LIMIT_GETDEVICE_TOP_VERSIONS)
+    - arguments: api/v1/getDevice/DEVICE_CODENAME
     - returns the following data about the device: codename, installations, top X countries
-    - json format: ```{"name":"sweet","installations":1337,"top_countries":{"EN":200,"CZ":159,"US":44,"IT":10},"top_versions":{"17.1-20170101-NIGHTLY-sweet":20,"18.1-20180101-NIGHTLY-sweet":4,"19.0-20220101-OFFICIAL-sweet":1}}```
+    - json format: ```{"name":"sweet","installations":1337,"top_countries":{"EN":200,"CZ":159,"US":44,"IT":10},"top_versions":{"17.1":359,"19.0":54}}```
 
 <br/>
 
@@ -67,6 +67,14 @@ https://stats.materium.eu.org/api/v1/GeTdEVICe/CuCUMbeR
     - registers a new device or updates data from a device in our database
     - Request type: POST
     - expected json format: ```{"device_hash": "iuhashui2879sda23414sdada", "device_name": "cucumber", "device_version": "14.1-20170101-NIGHTLY-cucumber", "device_country": "DE", "device_carrier": "SCAM MOBILE LTD", "device_carrier_id": "1337"}```
+
+<br/>
+
+- <a id="COMMAND_V1_GETCOUNTRY"></a>getDevice
+    - see config: [LIMIT_GETCOUNTRY_TOP_DEVICES](#CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES), [LIMIT_GETCOUNTRY_TOP_VERSIONS](#CONFIG_LIMIT_GETCOUNTRY_TOP_VERSIONS)
+    - arguments: api/v1/getCountry/COUNTRY_CODE (eg. DE)
+    - returns the following data about the country: country(-code), overall installations, top X devices, top X versions
+    - json format: ```{"country":"DE","installations":3,"top_devices":{"cumber":2,"sweet":1},"top_versions":{"19.0":2,"19.1":1}}```
 
 ## Config
 
@@ -82,12 +90,24 @@ https://stats.materium.eu.org/api/v1/GeTdEVICe/CuCUMbeR
 
 <br/>
 
-- <a id="CONFIG_LIMIT_GETDEVICE_TOP_COUNTRIES"></a>CONFIG_LIMIT_GETDEVICE_TOP_COUNTRIES
+- <a id="CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES"></a>CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES
+    - takes an integer
+    - sets the limit, how much countries will be shown in the top countries list of the [getCountry](#COMMAND_V1_GETCOUNTRY) command
+
+<br/>
+
+- <a id="CONFIG_LIMIT_GETCOUNTRY_TOP_VERSIONS"></a>CONFIG_LIMIT_GETCOUNTRY_TOP_VERSIONS
+    - takes an integer
+    - sets the limit, how much countries will be shown in the top versions list of the [getCountry](#COMMAND_V1_GETCOUNTRY) command
+
+<br/>
+
+- <a id="CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES"></a>CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES
     - takes an integer
     - sets the limit, how much countries will be shown in the top countries list of the [getDevice](#COMMAND_V1_GETDEVICE) command
 
 <br/>
 
-- <a id="CONFIG_LIMIT_GETDEVICE_TOP_VERSIONS"></a>CONFIG_LIMIT_GETDEVICE_TOP_VERSIONS
+- <a id="CONFIG_LIMIT_GETCOUNTRY_TOP_VERSIONS"></a>CONFIG_LIMIT_GETCOUNTRY_TOP_DEVICES
     - takes an integer
     - sets the limit, how much countries will be shown in the top versions list of the [getDevice](#COMMAND_V1_GETDEVICE) command
