@@ -21,6 +21,8 @@ function getStatsConfig()
         'LIMIT_GETTOPCOUNTRIES' => 5,
         'LIMIT_GETTOPDEVICES' => 5,
         'LIMIT_GETDEVICE_TOP_COUNTRY' => 5,
-        'LIMIT_GETDEVICE_TOP_VERSION' => 5
+        'LIMIT_GETDEVICE_TOP_VERSION' => 5,
+        'LIMIT_GETCOUNTRY_TOP_DEVICES' => 5,
+        'LIMIT_GETCOUNTRY_TOP_VERSIONS' => 5
     );
 }
