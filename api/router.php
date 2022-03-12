@@ -21,6 +21,11 @@
 // u[3] = 'getDevice' - command for the api to handle
 // u[4] = 'DEVICE_NAME' - argument(s) for the command
 
+// take care of CORS
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header("Access-Control-Allow-Headers: X-Requested-With");
+
 // util function for printing bad request error
 function printBadRequest($responseCode = 400, $text = "Bad request")
 {
