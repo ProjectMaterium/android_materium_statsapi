@@ -4,15 +4,15 @@
 // Tested with
 // - php 7.3.33
 //
-// Simple REST Api Router for Project Materium
+// Simple REST Api Router for droid-ng
 
 
 // url requests will look like the following:
-// https://stats.materium.eu.org/api/v2/getDevice/DEVICE_NAME returns details from that device
-// https://stats.materium.eu.org/api/API_VERSION/COMMAND/ARGUMENT
+// https://stats.droid-ng.eu.org/api/v2/getDevice/DEVICE_NAME returns details from that device
+// https://stats.droid-ng.eu.org/api/API_VERSION/COMMAND/ARGUMENT
 //
 // Deprecated: (will eventually be removed soon)
-// https://stats.materium.eu.org/api/v1.php
+// https://stats.droid-ng.eu.org/api/v1.php
 
 // THE URL IS GETTING PARSED WITHOUT ANY FUCKS ABOUT CASE (commands can be written as lower-, uppercase or something mixed)
 // the url is getting split by '/' here in the script so for the last example the splitted url looks like:

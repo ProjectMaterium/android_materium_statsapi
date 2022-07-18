@@ -1,4 +1,4 @@
-# stats.materium.eu.org
+# stats.droid-ng.eu.org
 This is the stats website we use to track the number of our devices :)
 
 
@@ -21,16 +21,16 @@ Tested with:
 - php 7.3.33
 
 # API v1
-The API is reachable at https://stats.materium.eu.org/api/v1/
+The API is reachable at https://stats.droid-ng.eu.org/api/v1/
 
 ```
-https://stats.materium.eu.org/api/v1/getDevice/cucmber
-https://stats.materium.eu.org/api/v1/COMMAND/ARGUMENT
+https://stats.droid-ng.eu.org/api/v1/getDevice/cucmber
+https://stats.droid-ng.eu.org/api/v1/COMMAND/ARGUMENT
 ```
 
 The whole url is parsed case non-sensitive so don't worry we also accept requests like this
 ```
-https://stats.materium.eu.org/api/v1/GeTdEVICe/CuCUMbeR
+https://stats.droid-ng.eu.org/api/v1/GeTdEVICe/CuCUMbeR
 ```
 
 ## Requests/Commands

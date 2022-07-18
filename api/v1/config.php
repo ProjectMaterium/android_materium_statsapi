@@ -4,7 +4,7 @@
 // Tested with
 // - php 7.3.33
 //
-// Config for the Stats Api v1 for Project Materium
+// Config for the Stats Api v1 for droid-ng
 
 // the config files may vary from version to version so we put the file into the specific version folder
 
