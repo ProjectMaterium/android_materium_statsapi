@@ -13,16 +13,17 @@ Tested with:
 - MariaDB 10.4.22
 
 ```sql
-CREATE TABLE `DATABASENAME`.`device` (
-`device_hash` TEXT NOT NULL ,
-`device_name` TEXT NOT NULL ,
-`device_version` TEXT NOT NULL ,
-`device_country` TEXT NOT NULL ,
-`device_carrier` TEXT NOT NULL ,
-`device_carrier_id` TEXT NOT NULL ,
-UNIQUE `device_hash` (`device_hash`),
-`timestamp` INT UNSIGNED NOT NULL DEFAULT UNIX_TIMESTAMP() ON UPDATE UNIX_TIMESTAMP()
-) ENGINE = InnoDB;
+CREATE TABLE `DATABASENAME`.`device`(
+    `device_hash` TEXT NOT NULL,
+    `device_name` TEXT NOT NULL,
+    `device_version` TEXT NOT NULL,
+    `device_version_short` TEXT NOT NULL,
+    `device_country` TEXT NOT NULL,
+    `device_carrier` TEXT NOT NULL,
+    `device_carrier_id` TEXT NOT NULL,
+    UNIQUE `device_hash`(`device_hash`),
+    `timestamp` INT UNSIGNED NOT NULL
+) ENGINE = INNODB;
 ```
 
 ## Webserver

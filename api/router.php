@@ -75,6 +75,20 @@ switch ($u[2]) {
                 getCountry($u[4]);
                 break;
 
+            case 'getallcarriers':
+                // get all carriers
+                getAllCarriers();
+                break;
+
+            case 'gettopcarriers':
+                // get top x carriers with the most installations
+                getTopCarriers();
+
+            case 'getcarrier':
+                // get details of a carrier
+                getCarrier($u[4]);
+                break;
+
             case '':
                 printBadRequest(400, "Missing command!");
                 break;
@@ -87,9 +101,9 @@ switch ($u[2]) {
         disconnectDb();
         break;
     case '':
-        printBadRequest(400,"Hello Human<br/>There is some stuff missing in your request");
+        printBadRequest(400, "Hello Human<br/>There is some stuff missing in your request");
         break;
     default:
-        printBadRequest(400,"Bad API version!");
+        printBadRequest(400, "Bad API version!");
         break;
 } // end api version switch
