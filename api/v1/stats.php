@@ -60,7 +60,7 @@ function registerDevice()
   // example command:
   // REPLACE `device` (`device_hash`, `device_name`, `device_version`, `device_version_short`, `device_country`, `device_carrier`, `device_carrier_id`, `timestamp`) values ('1', 'ccucumber', '14.1-20170101-NIGHTLY-cucumber', '14.1', 'US', 'Carrier', '0', '12321321334);
   $stmt = $db->prepare("REPLACE `device` (`device_hash`, `device_name`, `device_version`, `device_version_short`, `device_country`, `device_carrier`, `device_carrier_id`, `timestamp`) values (?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param('ssssss', $d->device_hash, $d->device_name, $d->device_version, strstr($d->device_version, '-', true), $d->device_country, $d->device_carrier, $d->device_carrier_id, time());
+  $stmt->bind_param('sssssssi', $d->device_hash, $d->device_name, $d->device_version, strstr($d->device_version, '-', true), $d->device_country, $d->device_carrier, $d->device_carrier_id, time());
   $stmt->execute();
 
   disconnectDb();
