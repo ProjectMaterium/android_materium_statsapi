@@ -75,20 +75,6 @@ switch ($u[2]) {
                 getCountry($u[4]);
                 break;
 
-            case 'getallcarriers':
-                // get all carriers
-                getAllCarriers();
-                break;
-
-            case 'gettopcarriers':
-                // get top x carriers with the most installations
-                getTopCarriers();
-
-            case 'getcarrier':
-                // get details of a carrier
-                getCarrier($u[4]);
-                break;
-
             case '':
                 printBadRequest(400, "Missing command!");
                 break;

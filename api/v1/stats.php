@@ -54,16 +54,15 @@ function registerDevice()
     $d->$x = $db->real_escape_string($x_val);
   }
 
-  $d->device_version = strstr($d->device_version, '-', true); // remove everything after the first '-'
-
+  $device_version_short = strstr($d->device_version, '-', true);
+  $time = time();
   // for the sql statement to work we need device_hash as unique key and a databse software that supports the replace statement!!!
   // example command:
   // REPLACE `device` (`device_hash`, `device_name`, `device_version`, `device_version_short`, `device_country`, `device_carrier`, `device_carrier_id`, `timestamp`) values ('1', 'ccucumber', '14.1-20170101-NIGHTLY-cucumber', '14.1', 'US', 'Carrier', '0', '12321321334);
   $stmt = $db->prepare("REPLACE `device` (`device_hash`, `device_name`, `device_version`, `device_version_short`, `device_country`, `device_carrier`, `device_carrier_id`, `timestamp`) values (?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param('sssssssi', $d->device_hash, $d->device_name, $d->device_version, strstr($d->device_version, '-', true), $d->device_country, $d->device_carrier, $d->device_carrier_id, time());
+  $stmt->bind_param('sssssssi', $d->device_hash, $d->device_name, $d->device_version, $device_version_short, $d->device_country, $d->device_carrier, $d->device_carrier_id, $time);
   $stmt->execute();
 
-  disconnectDb();
   unset($j, $d, $stmt, $db);
 }
 
@@ -151,7 +150,7 @@ function getDevice($d)
 
 
   // top version
-  $s = $db->prepare("SELECT `device_version_short` AS `version`, COUNT(`version`) AS `vo` FROM `device` WHERE `device_country` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
+  $s = $db->prepare("SELECT `device_version_short` AS `version`, COUNT(`device_version_short`) AS `vo` FROM `device` WHERE `device_name` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
   $x = $db->real_escape_string($d);
   if (isset($STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'])) {
     $y = $STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'];
@@ -165,7 +164,7 @@ function getDevice($d)
   $c = [];
   $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
   foreach ($r as $k) {
-    $c[$k['device_version']] = $k['vo'];
+    $c[$k['version']] = $k['vo'];
   }
   $o['top_versions'] = $c;
 
