@@ -168,6 +168,24 @@ function getDevice($d)
   }
   $o['top_versions'] = $c;
 
+  // top builds
+  $s = $db->prepare("SELECT `device_version` AS `version`, COUNT(`device_version`) AS `vo` FROM `device` WHERE `device_name` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
+  $x = $db->real_escape_string($d);
+  if (isset($STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'])) {
+    $y = $STATS_CONFIG['LIMIT_GETDEVICE_TOP_VERSION'];
+  } else {
+    $y = 10;
+  }
+  $s->bind_param('si', $x, $y);
+  unset($x);
+  $s->execute();
+
+  $c = [];
+  $r = $s->get_result()->fetch_all(MYSQLI_ASSOC);
+  foreach ($r as $k) {
+    $c[$k['version']] = $k['vo'];
+  }
+  $o['top_builds'] = $c;
 
 
   echo json_encode($o);
