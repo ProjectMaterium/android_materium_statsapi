@@ -295,7 +295,7 @@ function getCountry($d)
   unset($c, $r, $y, $s, $x);
 
   // top version
-  $s = $db->prepare("SELECT `device_version_short` AS `version`, COUNT(`version`) AS `vo` FROM `device` WHERE `device_country` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
+  $s = $db->prepare("SELECT `device_version_short` AS `version`, COUNT(`device_version_short`) AS `vo` FROM `device` WHERE `device_country` = ? GROUP BY `version` ORDER BY `vo` DESC LIMIT ?;");
   $x = $db->real_escape_string($d);
   if (isset($STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_VERSIONS'])) {
     $y = $STATS_CONFIG['LIMIT_GETCOUNTRY_TOP_VERSIONS'];
