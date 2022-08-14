@@ -2,4 +2,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^api.*$ api/router.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.html [QSA,L]
 </IfModule>
